@@ -19,7 +19,7 @@ cmplExpGen e1 e2 op = do
 	if d1 >= d2 then
 		return (1 + max d1 d2, c1 ++ c2 ++ op)
 	else
-		return (1 + max d1 d2, c2 ++ c1 ++ op)
+		return (1 + max d1 d2, c2 ++ c1 ++ swap ++ op)
 
 cmplExp :: Exp -> St (Int, String) -- St(Depth, Code)
 cmplExp (ExpAdd exp1 exp2) = cmplExpGen exp1 exp2 iadd
@@ -73,8 +73,11 @@ calcStackSize code = maximum (
 	Prelude.foldl (\acc x -> ((head acc) + stackChangeNo x) : acc) [0] (splitOn "\n" code))
 
 stackChangeNo :: String -> Int
-stackChangeNo s =  if or (Prelude.foldr (\x acc -> (isPrefixOf x s) : acc) [] [iconst, iload, ldc, getPrintStream])
-	then 1 else if isPrefixOf swap s then 0 else -1
+stackChangeNo s =
+	if or (Prelude.foldr (\x acc -> (isPrefixOf x s) : acc) [] [iconst, iload, ldc, getPrintStream]) then 1
+	else if isPrefixOf s "swap" then 0
+	else if isPrefixOf s printInt then -2
+	else -1
 
 
 
