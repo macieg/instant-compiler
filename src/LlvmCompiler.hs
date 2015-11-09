@@ -69,10 +69,10 @@ alloca var = "%" ++ var ++ " = alloca i32\n"
 store var val = "store i32 " ++ val ++ ", i32* %" ++ var ++ "\n"
 load var ind = "%" ++ (show ind) ++ " = load i32* %" ++ var ++ "\n"
 printf var = "call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([4 x i8]* @.str, i32 0, i32 0), i32 " ++ var ++ ")\n"
-add newind arg1 arg2 = "%" ++ (show newind) ++ " = add i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
-sub newind arg1 arg2 = "%" ++ (show newind) ++ " = sub i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
-mul newind arg1 arg2 = "%" ++ (show newind) ++ " = mul i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
-div newind arg1 arg2 = "%" ++ (show newind) ++ " = udiv i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
+add newind arg1 arg2 = "%" ++ (show newind) ++ " = add nsw i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
+sub newind arg1 arg2 = "%" ++ (show newind) ++ " = sub nsw i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
+mul newind arg1 arg2 = "%" ++ (show newind) ++ " = mul nsw i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
+div newind arg1 arg2 = "%" ++ (show newind) ++ " = sdiv i32 " ++ arg1 ++ ", " ++ arg2 ++ "\n"
 header = intercalate "\n" ["@.str = private unnamed_addr constant [4 x i8] c\"%d\\0A\\00\"",
 	"declare i32 @printf(i8*, ...)",
 	"",
